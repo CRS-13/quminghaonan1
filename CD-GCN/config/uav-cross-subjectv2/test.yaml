@@ -1,0 +1,29 @@
+# feeder
+feeder: feeders.feeder.Feeder
+test_feeder_args:
+  data_path: /home/coop/yuxin/CD-GCN/data/val_joint.npy
+  label_path: /home/coop/yuxin/data/val_label.npy
+  debug: False
+  window_size: -1
+  p_interval: [ 0.95 ]
+  bone: False
+  vel: False
+  frame: False
+
+# model
+model: model.vegcn.Model
+model_args:
+  num_class: 155
+  num_point: 17
+  num_person: 2
+  graph: graph.uav.Graph
+  graph_args:
+    labeling_mode: 'spatial'
+
+# test
+phase: test
+device: [0,1,2,3]
+test_batch_size: 256
+weights: /home/coop/yuxin/CDresults/BM/runs/BM2-33-10132.pt
+
+save_score: True
