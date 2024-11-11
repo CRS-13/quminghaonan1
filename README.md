@@ -70,6 +70,8 @@ Top
 
 ```
 
+# CDGCN
+
 CDGCN的复现环境可以参照[https://github.com/sakura1040576710/CD-GCN.git]
 
 ## TRAIN
