@@ -64,7 +64,7 @@ dataset
     ├── ..........
     ├── test_label_B.npy
 └─eval
-TE-GCN
+CD-GCN
 Top
 .....
 
@@ -86,10 +86,10 @@ sh scripts/EVAL_V2.sh
 注意修改权重地址
 
 ## WEIGHTS
-We have released all trained weights in [baidupan]([  output.zip 链接: https://pan.baidu.com/s/1QVeYF3Ri94EF8wjf_E_F8g?pwd=yf1f]), passwd is `szuq`
+We have released all trained weights in [baidupan]([  output.zip 链接: https://pan.baidu.com/s/1QVeYF3Ri94EF8wjf_E_F8g?pwd=yf1f])
 
 # Top
-它包含MixFormer和MixGCN
+MixGCN
 
 ## Dataset
 **1. 进入Top/Process_data，修改npy_to_npz.py代码中的路径,使处理后的数据保存在Top/Test_dataset/save_2d_pose，该文件夹需要自己创建，同时创建Top/Test_dataset/save_3d_pose
