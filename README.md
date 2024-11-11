@@ -96,19 +96,14 @@ MixGCN
 先使用data_prepro中的`data_prepro.py`进行数据处理，得到用于Mix GCN训练的数据格式，我们得到了train，test的bone,joint,bone_motion，joint_motion的四个npz文件，我们再使用`data_augmentation.py`进行数据增强，我们在Mix GCN中也使用了3d数据，下面会讲解如何得到，我们使用`data_prepro_info.py`得到SAR的数据格式，此外，我们还使用`UAV_SAR/data/uav`中的`gen_angle_data`得到joint和bone的train和test数据。上述为我们使用数据的大概情况。
 
 ## Dataset
-**1. 进入Top/Process_data，修改npy_to_npz.py代码中的路径,使处理后的数据保存在Top/Test_dataset/save_2d_pose，该文件夹需要自己创建，同时创建Top/Test_dataset/save_3d_pose
-```shell
-python npy_to_npz.py
-```
-
-**2. 得到3dpose数据
+**得到3dpose数据
 First, you must download the 3d pose checkpoint from [here](https://drive.google.com/file/d/1citX7YlwaM3VYBYOzidXSLHb4lJ6VlXL/view?usp=sharing), and install the environment based on **3dpose.yml** <br />
 Then, you must put the downloaded checkpoint into the **./Process_data/checkpoint/pose3d/FT_MB_lite_MB_ft_h36m_global_lite** folder. <br />
 你也可以在我们的网盘下载该文件，并放在上述指定的文件夹下
 最后，你需要改变test_dataset_path和保存路径，得到joint和bone的3dpose数据
 ```shell
 cd Process_data
-python estimate.py --test_dataset_path ../Test_dataset
+python estimate.py --test_dataset_path ../data_path
 ```
 将得到的npz文件放入Top/Test_dataset/save_3d_pose下
 
@@ -126,13 +121,9 @@ pip install -e torchlight
 # Mix_GCN Example
 cd ./Model_inference/Mix_GCN
 python main.py --config ./config/ctrgcn_V1_J.yaml --device 0
-
-# Mix_Former Example
-cd ./Model_inference/Mix_Former
-python main.py --config ./config/mixformer_V1_J.yaml --device 0
 ```
-注意：我们训练了skmixf__V1_J、skmixf__V1_B、skmixf__V1_JM、skmixf__V1_BM、skmixf__V1_k2、skmixf__V1_k2M、
-ctrgcn_V1_J、ctrgcn_V1_B、ctrgcn_V1_J_3D、ctrgcn_V1_B_3D、tdgcn_V1_J、tdgcn_V1_B、mstgcn_V1_J和mstgcn_V1_B模型
+注意：我们训练了ctrgcn_V1_J_CHASE、ctrgcn_V1_B_CHASE、ctrgcn_V1_J_3D、ctrgcn_V1_B_3D、tdgcn_V1_J_3D、tdgcn_V1_B_3D、ctrgcn_V1_JM、ctrgcn_V1_BM、ctrgcn_V1_AB和ctrgcn_V1_AJ模型,
+其中的ctrgcn_V1_J_CHASE、ctrgcn_V1_B_CHASE我们添加了CHASE方法，AB，AJ分别为joint_angle和bone_joint
 
 # Model inference
 ## Run Mix_GCN
