@@ -17,8 +17,6 @@ TEGCN和Top的训练均使用GCN环境，在训练模型时如果缺少包，直
 将`from collections import Iterable`修改为`from collections.abc import Iterable`即可
 
 
-# TEGCN
-
 ## Data preparation
 Prepare the data according to [https://github.com/CRS-13/quminghaonan/blob/577ce2e663f4cb7ff56bdc53603329d54edff5ea/dataset/README.md].
 下面提供了
@@ -45,7 +43,7 @@ python ：`numpy tqdm`
 1. 将省赛数据集解压放入data文件夹下，修改名称为test_B_joint.npy
 2. 数据集处理出bone模态数据：运行`python gen_modal.py --modal bone`得到bone模态数据
 3. 数据集处理出motion模态数据：运行`python gen_modal.py --modal motion`得到motion模态的数据
-4. 运行zero.py文件得到（4599，）的全零标签
+4. 运行zero.py文件得到（4307，）的全零标签
 5. 最终你会得到如下所展示的目录结构与文件
 
 Your `dataset/` should be like this:
@@ -64,7 +62,7 @@ dataset
     ├── test_*_joint_motion.npy
     ├── test_*_joint.npy
     ├── ..........
-    ├── zero_label_B.npy
+    ├── test_label_B.npy
 └─eval
 TE-GCN
 Top
