@@ -93,6 +93,8 @@ We have released all trained weights in [baidupan]([  output.zip 链接: https:/
 # Top
 MixGCN
 
+先使用
+
 ## Dataset
 **1. 进入Top/Process_data，修改npy_to_npz.py代码中的路径,使处理后的数据保存在Top/Test_dataset/save_2d_pose，该文件夹需要自己创建，同时创建Top/Test_dataset/save_3d_pose
 ```shell
