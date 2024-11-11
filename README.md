@@ -120,6 +120,7 @@ pip install -e torchlight
 # Change the configuration file (.yaml) of the corresponding modality.
 # Mix_GCN Example
 cd ./Model_inference/Mix_GCN
+python main_CHASE.py --config ./config/ctrgcn_V1_J_CHASE.yaml --device 0
 python main.py --config ./config/ctrgcn_V1_J.yaml --device 0
 ```
 注意：我们训练了ctrgcn_V1_J_CHASE、ctrgcn_V1_B_CHASE、ctrgcn_V1_J_3D、ctrgcn_V1_B_3D、tdgcn_V1_J_3D、tdgcn_V1_B_3D、ctrgcn_V1_JM、ctrgcn_V1_BM、ctrgcn_V1_AB和ctrgcn_V1_AJ模型,
@@ -133,16 +134,18 @@ python main.py --config ./config/ctrgcn_V1_J.yaml --device 0
 注：在测试之前，需要将test的data_path改为的npz文件，注意joint与joint对应，bone与bone对应
 在测试3dpose数据时，需要取消注释main.py文件中的446行代码， `label = label.unsqueeze(1)`
 ```shell
-python main.py --config ./config/ctrgcn_V1_J.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
-python main.py --config ./config/ctrgcn_V1_B.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
+python main_CHASE.py --config ./config/ctrgcn_V1_J_CHASE.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
+python main_CHASE.py --config ./config/ctrgcn_V1_B_CHASE.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 python main.py --config ./config/ctrgcn_V1_J_3d.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 python main.py --config ./config/ctrgcn_V1_B_3d.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
+python main.py --config ./config/ctrgcn_V1_JM.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
+python main.py --config ./config/ctrgcn_V1_BM.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 ###
 python main.py --config ./config/tdgcn_V1_J.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 python main.py --config ./config/tdgcn_V1_B.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 ###
-python main.py --config ./config/mstgcn_V1_J.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
-python main.py --config ./config/mstgcn_V1_B.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
+python main.py --config ./config/ctrgcn_V1_AJ.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
+python main.py --config ./config/ctrgcn_V1_AJ.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 ```
 
 ## Run Mix_Former
