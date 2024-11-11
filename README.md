@@ -181,25 +181,11 @@ python main.py --config ./config/uav_csv1/FR_Head_1.yaml --work-dir <the save pa
 
 # k=2 use FR_Head
 python main.py --config ./config/uav_csv1/FR_Head_2.yaml --work-dir <the save path of results>
-    
+
 # k=6 use FR_Head
 python main.py --config ./config/uav_csv1/FR_Head_6.yaml --work-dir <the save path of results>
 ```
-2. We also trained the motion by k=1, k=2 and k=6. You could use the commands as:
-```shell
-cd ./infogcn(FR_Head)
 
-# By motion k=1
-python main.py --config ./config/uav_csv1/motion_1.yaml --work-dir <the save path of results>
-
-# By motion k=2
-python main.py --config ./config/uav_csv1/motion_2.yaml --work-dir <the save path of results>
-
-# By motion k=6
-python main.py --config ./config/uav_csv1/motion_6.yaml --work-dir <the save path of results>
-```
-3. The default sample frames for model is 64, we also trained the 32 frames and the 128 frames. The commands as:
-```shell
 cd ./infogcn(FR_Head)
 
 # use 32 frames
@@ -240,15 +226,12 @@ python main.py --config ./config/uav_csv1/_2.yaml --work-dir <the save path of r
 python main.py --config ./config/uav_csv1/_6.yaml --work-dir <the save path of results>
 ```
 
-2. We also trained the model in k=1, k=2 and k=6 with motion. The commands as:
+2. We also trained the model in k=1 and k=6 with motion. The commands as:
 ```shell
 cd ./mixformer
 
 # By motion k=1
 python main.py --config ./config/uav_csv1/motion_1.yaml --work-dir <the save path of results>
-
-# By motion k=2
-python main.py --config ./config/uav_csv1/motion_2.yaml --work-dir <the save path of results>
 
 # By motion k=6
 python main.py --config ./config/uav_csv1/motion_6.yaml --work-dir <the save path of results>
@@ -281,14 +264,15 @@ python main.py --config ./config/uav_csv1/motion.yaml --work-dir <the save path 
 ### Testing
 If you want to test any trained model saved in `<work_dir>`, run the following command: 
 ```shell
-python main.py --config <work_dir>/config.yaml --work-dir <work_dir> --phase test --save_score True --weights <work_dir>/xxx.pt
+python main.py --config <work_dir>/config.yaml --work-dir <work_dir> --phase test --save_score True --weights <work_dir>/xxx.pt #for infogc and mixformer
+python main.py --config <work_dir>/config.yaml --work-dir <work_dir> --run_mode test --save_score True --weights <work_dir>/xxx.pt #for sttformer
 ```
 It will get a file `epoch1_test_score.pkl` which save the prediction score, put them into the following directory structure:
 ```
 
 # Ensemble
 
-## Ensemble Mix_GCN、Mix_Former和TEGCN
+## Ensemble Mix_GCN、Mix_Former、InfoGCN、CDGCN和STTformer
 
 **1.** You can obtain the final classification accuracy of CSv1 by running the following code:
 ```shell
