@@ -16,7 +16,6 @@ TEGCN和Top的训练均使用GCN环境，在训练模型时如果缺少包，直
 使用GCN运行代码时可能出现` File "/home/zjl_laoshi/anaconda3/envs/mixgcn_test/lib/python3.10/site-packages/torchpack/config.py", line 4, in <module>`
 将`from collections import Iterable`修改为`from collections.abc import Iterable`即可
 
-# CDGCN
 ## Data preparation
 Prepare the data according to [https://github.com/CRS-13/quminghaonan/blob/577ce2e663f4cb7ff56bdc53603329d54edff5ea/dataset/README.md].
 下面提供了
