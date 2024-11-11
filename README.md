@@ -1,6 +1,6 @@
 # 取名好难
 这是我们的比赛代码，所有的训练权重全部保存在百度网盘,同时也在该项目的results目录下，同时还包含我们得到3dpose数据所用的附加文件
-[baidupan]([  https://pan.baidu.com/s/1l90iwPlMWf01me7Ajx32jg?pwd=pw2t]), passwd is `pw2t`
+[baidupan]([  output.zip 链接: https://pan.baidu.com/s/1QVeYF3Ri94EF8wjf_E_F8g?pwd=yf1f])
 
 我们使用的都为绝对路径，所以在训练前需要检查路径
 
@@ -88,7 +88,7 @@ sh scripts/EVAL_V2.sh
 注意修改权重地址
 
 ## WEIGHTS
-We have released all trained weights in [baidupan]([  https://pan.baidu.com/s/1l90iwPlMWf01me7Ajx32jg?pwd=pw2t]), passwd is `szuq`
+We have released all trained weights in [baidupan]([  output.zip 链接: https://pan.baidu.com/s/1QVeYF3Ri94EF8wjf_E_F8g?pwd=yf1f]), passwd is `szuq`
 
 # Top
 它包含MixFormer和MixGCN
