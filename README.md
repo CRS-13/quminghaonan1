@@ -147,64 +147,83 @@ python main.py --config ./config/tdgcn_V1_B.yaml --phase test --save-score True 
 python main.py --config ./config/ctrgcn_V1_AJ.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 python main.py --config ./config/ctrgcn_V1_AJ.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0
 ```
-
-## Run Mix_Former
-
-```shell
-cd ./Model_inference/Mix_Former
-```
-**1. Run the following code separately to obtain classification scores using different model weights.** <br />
-**CSv1:** <br />
-You have to change the corresponding **data-path** in the **config file**, just like：**data_path: dataset/save_2d_pose/V1.npz**. we recommend using an absolute path.
-注：与MixGCN一样需要检查数据路径，test参数的data_path训练时使用A，测试时使用B
-```shell
-python main.py --config ./config/mixformer_V1_J.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0  
-python main.py --config ./config/mixformer_V1_B.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0 
-python main.py --config ./config/mixformer_V1_JM.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0 
-python main.py --config ./config/mixformer_V1_BM.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0 
-python main.py --config ./config/mixformer_V1_k2.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0 
-python main.py --config ./config/mixformer_V1_k2M.yaml --phase test --save-score True --weights ./your_pt_path/pt_name.pt --device 0 
-```
-# Mix_Former_sar
-cd UAV-SAR
+# UAV-SAR
 ## Dependencies
 * python == 3.8
-* pytorch == 1.13.0
+* pytorch == 1.1.3
 * NVIDIA apex
 * PyYAML, tqdm, tensorboardX, wandb, numba
 
 Run `pip install -e torchlight`.
 
 You could find more details in the `requirements.txt`, or use the command `pip install -r requirements.txt`.
-注意在安装apex时需要
+
+
 ```shell
-cd apex
-python setup.py install
-```
-在训练Mix_former时可能出现有关于apex的报错，需要将报错位置
-`if cached x.grad fn.next functions[1][0].variable is not x:`
-改为
-```
-next functions available=False
-if next functions_available and cached x.grad fn.next functions[1][0].variable is not x:
+python data_prepro_info.py
+python gen_angle_data.py
 ```
 
-如果出现`If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.`
+这里的数据处理和UAV-SAR的数据处理原理相似，可以参考UAV-SAR的处理过程，我们使用上述两个脚本，处理出train和test的joint、bone、joint_bone、joint_motion、bone_motion和bone_angle.
 
-应该运行
-```
-pip install protobuf==3.20.3
-```
+## Training & Testing
 
-## 数据处理
+### Training
+#### [InfoGCN](https://github.com/stnoah1/infogcn)
+For example, these are commands for training InfoGCN on view1. Please change the arguments `--config` and `--work-dir` to custom your training. If you want to training on v2, we have prepared the arguments in `./infogcn(FR_Head)/config`.
+1. we added the [FR_Head](https://github.com/zhysora/FR-Head) module into infoGCN when training the model. And we trained the k=1, k=2, and k=6.
+You could use the commands as:
 ```shell
-cd UAV-SAR/data/uva_aug
-python data_preprocess.py #需要修改好数据路径
-python data_augmentation.py   #我们使用了该数据增强代码
-```
-注意路径
+cd ./infogcn(FR_Head)
 
-## Train
+# k=1 use FR_Head
+python main.py --config ./config/uav_csv1/FR_Head_1.yaml --work-dir <the save path of results> 
+
+# k=2 use FR_Head
+python main.py --config ./config/uav_csv1/FR_Head_2.yaml --work-dir <the save path of results>
+    
+# k=6 use FR_Head
+python main.py --config ./config/uav_csv1/FR_Head_6.yaml --work-dir <the save path of results>
+```
+2. We also trained the motion by k=1, k=2 and k=6. You could use the commands as:
+```shell
+cd ./infogcn(FR_Head)
+
+# By motion k=1
+python main.py --config ./config/uav_csv1/motion_1.yaml --work-dir <the save path of results>
+
+# By motion k=2
+python main.py --config ./config/uav_csv1/motion_2.yaml --work-dir <the save path of results>
+
+# By motion k=6
+python main.py --config ./config/uav_csv1/motion_6.yaml --work-dir <the save path of results>
+```
+3. The default sample frames for model is 64, we also trained the 32 frames and the 128 frames. The commands as:
+```shell
+cd ./infogcn(FR_Head)
+
+# use 32 frames
+python main.py --config ./config/uav_csv1/32frame_1.yaml --work-dir <the save path of results>
+
+# use 128 frames
+python main.py --config ./config/uav_csv1/128frame_1.yaml --work-dir <the save path of results>
+```
+4. After get the `MMVRAC_CSv1_angle.npz` and `MMVRAC_CSv2_angle.npz`, we trained the data by the command as:
+```shell
+cd ./infogcn(FR_Head)
+
+# use angle to train
+python main.py --config ./config/uav_csv1/angle_FR_Head_1.yaml --work-dir <the save path of results>
+```
+5. We also tried the FocalLoss to optimize the model. The command as:
+```shell
+cd ./infogcn(FR_Head)
+
+# use focalloss
+python main.py --config ./config/uav_csv1/focalloss_1.yaml --work-dir <the save path of results>
+```
+
+#### [Skeleton-MixFormer](https://github.com/ElricXin/Skeleton-MixFormer)
 For example, these are commands for training Skeleton-Mixformer on v1. Please change the arguments `--config` and `--work-dir` to custom your training. If you want to training on v2, we have prepared the arguments in `./mixformer/config`.
 
 1. We trained the model in k=1, k=2 and k=6. You could use the commands as:
@@ -212,66 +231,60 @@ For example, these are commands for training Skeleton-Mixformer on v1. Please ch
 cd ./mixformer
 
 # k=1
-python main.py --config ./config/uav_csv2/_1.yaml --work-dir <the save path of results>
+python main.py --config ./config/uav_csv1/_1.yaml --work-dir <the save path of results>
 
 # k=2
-python main.py --config ./config/uav_csv2/_2.yaml --work-dir <the save path of results>
+python main.py --config ./config/uav_csv1/_2.yaml --work-dir <the save path of results>
 
 # k=6
-python main.py --config ./config/uav_csv2/_6.yaml --work-dir <the save path of results>
+python main.py --config ./config/uav_csv1/_6.yaml --work-dir <the save path of results>
 ```
- 
-## Test
-我们使用与上述相同的方法更换test数据为B，经过上述数据处理得到MMVRAC_CSv2_B.npz（未进行数据增强）
-然后使用指令
+
+2. We also trained the model in k=1, k=2 and k=6 with motion. The commands as:
 ```shell
-python main.py --config ./config/uav_csv2/config_name.yaml --work-dir save_path --phase 'test' --weights your_pt_path
-#sach as python main.py --config ./config/uav_csv2/_6.yaml --work-dir /home/zjl_laoshi/xiaoke/UAV-SAR/mixformer/results/B/_6 --phase 'test' --weights /home/zjl_laoshi/xiaoke/UAV-SAR/mixformer/results/A/_6/runs-64-24640.pt
-```
-得到_1、_2、_6的预测结果
+cd ./mixformer
 
-# InfoGCN
-数据和Mix_Former_sar的一样，使用了增强后的数据,环境也为一样的
-## Train
-1. You could use the commands as:
+# By motion k=1
+python main.py --config ./config/uav_csv1/motion_1.yaml --work-dir <the save path of results>
+
+# By motion k=2
+python main.py --config ./config/uav_csv1/motion_2.yaml --work-dir <the save path of results>
+
+# By motion k=6
+python main.py --config ./config/uav_csv1/motion_6.yaml --work-dir <the save path of results>
+```
+
+3. And we tried the angle data to train the model. The command as:
 ```shell
-cd ./infogcn(FR_Head)
+cd ./mixformer
 
-# k=1 use FR_Head
-python main.py --config ./config/uav_csv2/FR_Head_1.yaml --work-dir <the save path of results> 
-
-# k=2 use FR_Head
-python main.py --config ./config/uav_csv2/FR_Head_2.yaml --work-dir <the save path of results>
-    
-# k=6 use FR_Head
-python main.py --config ./config/uav_csv2/FR_Head_6.yaml --work-dir <the save path of results>
+# use angle
+python main.py --config ./config/uav_csv1/angle_1.yaml --work-dir <the save path of results>
 ```
 
-2. The default sample frames for model is 64, we also trained the 32 frames and the 128 frames. The commands as:
+#### [STTFormer](https://github.com/heleiqiu/STTFormer)
+For example, these are commands for training STTFormer on v1. Please change the arguments `--config` and `--work-dir` to custom your training. If you want to training on v2, we have prepared the arguments in `./sttformer/config`.
+
+We trained joint, bone and motion. The commands as follows:
 ```shell
-cd ./infogcn(FR_Head)
+cd ./sttformer
 
-# use 32 frames
-python main.py --config ./config/uav_csv2/32frame_1.yaml --work-dir <the save path of results>
+# train joint
+python main.py --config ./config/uav_csv1/joint.yaml --work-dir <the save path of results>
 
-# use 128 frames
-python main.py --config ./config/uav_csv2/128frame_1.yaml --work-dir <the save path of results>
+# train bone
+python main.py --config ./config/uav_csv1/bone.yaml --work-dir <the save path of results>
+
+# train motion
+python main.py --config ./config/uav_csv1/motion.yaml --work-dir <the save path of results>
 ```
-
-3. We also tried the FocalLoss to optimize the model. The command as:
-```shell
-cd ./infogcn(FR_Head)
-
-# use focalloss
-python main.py --config ./config/uav_csv2/focalloss_1.yaml --work-dir <the save path of results>
-```
-
-## Test
+### Testing
 If you want to test any trained model saved in `<work_dir>`, run the following command: 
 ```shell
 python main.py --config <work_dir>/config.yaml --work-dir <work_dir> --phase test --save_score True --weights <work_dir>/xxx.pt
 ```
-与上述Mix_Former_sar相似的方法得到FR_Head_1、FR_Head_2、FR_Head_6、32frame_1、128frame_1和focalloss_1的预测结果
+It will get a file `epoch1_test_score.pkl` which save the prediction score, put them into the following directory structure:
+```
 
 # Ensemble
 
