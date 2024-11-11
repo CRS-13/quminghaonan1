@@ -188,7 +188,7 @@ python main.py --config ./config/uav_csv1/FR_Head_6.yaml --work-dir <the save pa
 ```
 
 cd ./infogcn(FR_Head)
-
+```
 # use 32 frames
 python main.py --config ./config/uav_csv1/32frame_1.yaml --work-dir <the save path of results>
 
