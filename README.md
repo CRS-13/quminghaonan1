@@ -93,7 +93,7 @@ We have released all trained weights in [baidupan]([  output.zip 链接: https:/
 # Top
 MixGCN
 
-先使用data_prepro中的`data_prepro.py`进行数据处理，得到用于Mix GCN训练的数据格式，我们得到了train，test的bone,joint,bone_motion，joint_motion的四个npz文件，我们再使用`data_augmentation.py`进行数据增强，我们在Mix GCN中也使用了3d数据，下面会讲解如何得到，我们使用`data_prepro_info.py`得到SAR的数据格式，此外，我们还使用`UAV_SAR/data/uav中的`
+先使用data_prepro中的`data_prepro.py`进行数据处理，得到用于Mix GCN训练的数据格式，我们得到了train，test的bone,joint,bone_motion，joint_motion的四个npz文件，我们再使用`data_augmentation.py`进行数据增强，我们在Mix GCN中也使用了3d数据，下面会讲解如何得到，我们使用`data_prepro_info.py`得到SAR的数据格式，此外，我们还使用`UAV_SAR/data/uav`中的`gen_angle_data`得到joint和bone的train和test数据。上述为我们使用数据的大概情况。
 
 ## Dataset
 **1. 进入Top/Process_data，修改npy_to_npz.py代码中的路径,使处理后的数据保存在Top/Test_dataset/save_2d_pose，该文件夹需要自己创建，同时创建Top/Test_dataset/save_3d_pose
