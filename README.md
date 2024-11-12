@@ -280,7 +280,7 @@ It will get a file `epoch1_test_score.pkl` which save the prediction score, put 
 cd Top
 python Ensemble_B.py
 ```
-注意：在运行上述指令前，需要该修改文件中的路径,并按默认值对应的结果依次更改new_test_r1_Score到new_test_r27_Score
+注意：在运行上述指令前，需要该修改文件中的路径,并按默认值对应的结果依次更改new_test_r1_Score到new_test_r30_Score
 我们的权重比自己设置的，没有自动搜素的过程
 
 当然，我们的网盘中提供了我们的结果，在融合我们的结果前也需要修改成对应的路径
